@@ -4,46 +4,37 @@ import CartItem from './CartItem';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    const [addedToCart, setAddedToCart] = useState({});
+
+    const handleAddToCart = (product) => {
+  dispatch(addItem(product));
+  setAddedToCart((prevState) => ({
+     ...prevState,
+     [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+   }));
+};
 
     const plantsArray = [
         {
-            category: "Air Purifying Plants",
+            category: "Hanging Plants",
             plants: [
                 {
-                    name: "Snake Plant",
-                    image: "https://cdn.pixabay.com/photo/2021/01/22/06/04/snake-plant-5939187_1280.jpg",
+                    name: "String of Pearls",
+                    image: "https://www.bhg.com/thmb/09lH6e_EmltG4NSwXUE-ZUI6xHI=/1280x0/filters:no_upscale():strip_icc()/string-of-beads-hanging-plant-44db0b32-2947d42a0bab4edd83fc28ac6151d278.jpg",
                     description: "Produces oxygen at night, improving air quality.",
-                    cost: "$15"
-                },
-                {
-                    name: "Spider Plant",
-                    image: "https://cdn.pixabay.com/photo/2018/07/11/06/47/chlorophytum-3530413_1280.jpg",
-                    description: "Filters formaldehyde and xylene from the air.",
                     cost: "$12"
                 },
                 {
-                    name: "Peace Lily",
-                    image: "https://cdn.pixabay.com/photo/2019/06/12/14/14/peace-lilies-4269365_1280.jpg",
+                    name: "Boston Fern",
+                    image: "https://www.bhg.com/thmb/3fFJ7KbKiLMAx49bauNhRppF2As=/1500x0/filters:no_upscale():strip_icc()/gardening-best-indoor-hanging-plants-boston-fern-84dd2c46a5de4bd4b44ed0d9fd653638.jpg",
+                    description: "Filters formaldehyde and xylene from the air.",
+                    cost: "$10"
+                },
+                {
+                    name: "English Ivy",
+                    image: "https://www.bhg.com/thmb/EBFLiuNUTuIrRVHqe4jELqfJBvc=/1245x0/filters:no_upscale():strip_icc()/english-ivy-plants-floating-shelf-394600cb-2892997e95684bcf91d57be17ecd9d4d.jpg",
                     description: "Removes mold spores and purifies the air.",
                     cost: "$18"
-                },
-                {
-                    name: "Boston Fern",
-                    image: "https://cdn.pixabay.com/photo/2020/04/30/19/52/boston-fern-5114414_1280.jpg",
-                    description: "Adds humidity to the air and removes toxins.",
-                    cost: "$20"
-                },
-                {
-                    name: "Rubber Plant",
-                    image: "https://cdn.pixabay.com/photo/2020/02/15/11/49/flower-4850729_1280.jpg",
-                    description: "Easy to care for and effective at removing toxins.",
-                    cost: "$17"
-                },
-                {
-                    name: "Aloe Vera",
-                    image: "https://cdn.pixabay.com/photo/2018/04/02/07/42/leaf-3283175_1280.jpg",
-                    description: "Purifies the air and has healing properties for skin.",
-                    cost: "$14"
                 }
             ]
         },
@@ -268,7 +259,21 @@ const handlePlantsClick = (e) => {
         </div>
         {!showCart? (
         <div className="product-grid">
-
+                {plantsArray.map((category, index) => (
+    <div key={index}>
+        <h1><div>{category.category}</div></h1>
+        <div className="product-list">
+            {category.plants.map((plant, plantIndex) => (
+            <div className="product-card" key={plantIndex}>
+                <img className="product-image" src={plant.image} alt={plant.name} />
+                <div className="product-title">{plant.name}</div>
+                {/*Similarly like the above plant.name show other details like description and cost*/}
+                <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+            </div>
+            ))}
+        </div>
+    </div>
+    ))}
 
         </div>
  ) :  (
